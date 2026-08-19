@@ -107,8 +107,15 @@ header {
   }
 }
 
-.hero {
+.transicao{
+  width: 100%;
   height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero {
+  height: 100%;
   overflow: hidden;
   position: relative;
   justify-content: center;
@@ -172,11 +179,30 @@ header {
   }
 }
 
+.retangulos{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset:0;
+  pointer-events: none;
+  display: flex;
+  div{
+    background-color:black;
+    width: 100%;
+    border:1px solid blue;
+    transform: translateY(-100%);
+  }
+}
 .secao2 {
-  height: 100vh;
+  height: 100%;
   align-items: center;
   justify-content: center;
   padding: 4vw;
+  position: absolute;
+  top:0;
+  left:0;
+  opacity: 0;
+  pointer-events: none;
 
   h2 {
     font-size: 5vw;
