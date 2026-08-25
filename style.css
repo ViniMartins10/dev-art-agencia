@@ -212,8 +212,12 @@ header {
 }
 
 .secao3 {
+  margin-top: -1px;
   justify-content: center;
   align-items: center;
+  background-color: black;
+  position: relative;
+  z-index: 9;
 
   h2 {
     font-size: 4vw;
@@ -243,9 +247,9 @@ header {
     opacity: 0;
   }
 
-  h2:nth-child(1) {
+  /* h2:nth-child(1) {
     opacity: 1;
-  }
+  } */
 }
 
 footer {
