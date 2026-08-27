@@ -58,6 +58,7 @@ window.addEventListener("load", ()=>{
             trigger: ".secao4",
             markers: true,
             scrub: 2, //começa a animação quando o elemento entra na tela e termina quando sai da tela
+             end: "+=4000",
             pin: true, // deixa a pagina travada em quanto a animação estiver acontecendo
 
         }
@@ -86,12 +87,24 @@ window.addEventListener("load", ()=>{
 
     const textoSecao4 = document.querySelectorAll(".secao4 h2"); // vai pegar todos os elementos h2 dentro da secao4
     textoSecao4.forEach((texto) => {
-        linhaDoTempo2.to(texto, {
-            opacity: 1,
+        const split2 = new SplitText(texto, {
+            types: "chars"
         })
-        linhaDoTempo2.to(texto, {
+        linhaDoTempo2.from(split2.chars, {
             opacity: 0,
+            filter: "blur(20px)",
+            stagger: {
+                each: .2,
+                from: "random"
+            }
         })
+        linhaDoTempo2.to(split2.chars, {
+            opacity: 0,
+            stagger: {
+                each: .2,
+                from: "random"
+            }
+        }, "+=2") // vai começar a animação de saída 0.5 segundos depois da animação de entrada terminar
     }); // vai percorrer todos os elementos h2
 });
 
