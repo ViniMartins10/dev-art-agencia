@@ -1,7 +1,9 @@
+import * as THREE from 'three';
+ gsap.registerPlugin(ScrollTrigger,ScrollSmoother,SplitText);
 
 window.addEventListener("load", ()=>{
 
-    gsap.registerPlugin(ScrollTrigger,ScrollSmoother,SplitText);
+   
 
     const video = document.querySelector(".videohero");
     const videofooter = document.querySelector(".videofooter");
@@ -106,6 +108,18 @@ window.addEventListener("load", ()=>{
             }
         }, "+=2") // vai começar a animação de saída 0.5 segundos depois da animação de entrada terminar
     }); // vai percorrer todos os elementos h2
+
+
+    //começando o codigo three.js
+    //cena
+    const scene = new THREE.Scene();//instanciando o objeto
+    //camera(fov (angulo de visão da camera), aspect(largura, altura / tamanho da tela), near, far)
+    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 4; // vai posicionar a camera para trás da cena, para que possamos ver os objetos
+    //renderizador (tela de que tamanho vai ser renderizada a cena, antialias (suaviza as bordas), alpha (transparencia))
+    const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+    renderer.setSize(window.innerWidth, window.innerHeight); // vai setar o tamanho do renderizador para o tamanho da tela
+    const divDiamante = document.querySelector(".divDiamante"); // vai pegar a div que vai projetar o 3D 
 });
 
 
