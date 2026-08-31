@@ -1,5 +1,7 @@
 import * as THREE from 'three';
- gsap.registerPlugin(ScrollTrigger,ScrollSmoother,SplitText);
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+gsap.registerPlugin(ScrollTrigger,ScrollSmoother,SplitText);
+
 
 window.addEventListener("load", ()=>{
 
@@ -112,7 +114,7 @@ window.addEventListener("load", ()=>{
 
     //começando o codigo three.js
     //cena
-    const scene = new THREE.Scene();//instanciando o objeto
+    const cena = new THREE.Scene();//instanciando o objeto
     //camera(fov (angulo de visão da camera), aspect(largura, altura / tamanho da tela), near, far)
     const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 4; // vai posicionar a camera para trás da cena, para que possamos ver os objetos
@@ -120,6 +122,15 @@ window.addEventListener("load", ()=>{
     const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
     renderer.setSize(window.innerWidth, window.innerHeight); // vai setar o tamanho do renderizador para o tamanho da tela
     const divDiamante = document.querySelector(".divDiamante"); // vai pegar a div que vai projetar o 3D 
+    divDiamante.appendChild(renderer.domElement); // vai adicionar o renderizador na div, como se tivesse adicionando alguma coisa na div lá no html
+
+    //inserir o objeto 3D
+    const gltfLoader = new GLTFLoader(); // vai carregar o objeto 3D
+    gltfLoader.load("img/diamond-compressed.glb",(objeto) =>{
+        const diamante = objeto.scene
+        cena.add(diamante); // vai adicionar o objeto 3D na cena
+    }); 
+    renderer.render(cena, camera); // vai renderizar a cena e a camera
 });
 
 
