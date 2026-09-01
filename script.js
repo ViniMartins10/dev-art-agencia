@@ -60,7 +60,7 @@ window.addEventListener("load", ()=>{
    const linhaDoTempo2 = gsap.timeline({
         scrollTrigger: {
             trigger: ".secao4",
-            markers: true,
+            markers: false,
             scrub: 2, //começa a animação quando o elemento entra na tela e termina quando sai da tela
              end: "+=4000",
             pin: true, // deixa a pagina travada em quanto a animação estiver acontecendo
@@ -119,18 +119,55 @@ window.addEventListener("load", ()=>{
     const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 4; // vai posicionar a camera para trás da cena, para que possamos ver os objetos
     //renderizador (tela de que tamanho vai ser renderizada a cena, antialias (suaviza as bordas), alpha (transparencia))
-    const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+    const renderer = new THREE.WebGLRenderer({alpha: true, antialias: true}); // vai criar o renderizador
     renderer.setSize(window.innerWidth, window.innerHeight); // vai setar o tamanho do renderizador para o tamanho da tela
     const divDiamante = document.querySelector(".divDiamante"); // vai pegar a div que vai projetar o 3D 
     divDiamante.appendChild(renderer.domElement); // vai adicionar o renderizador na div, como se tivesse adicionando alguma coisa na div lá no html
-
+    
     //inserir o objeto 3D
+    let diamante = null; // vai criar a variavel diamante para armazenar o objeto 3D
     const gltfLoader = new GLTFLoader(); // vai carregar o objeto 3D
     gltfLoader.load("img/diamond-compressed.glb",(objeto) =>{
-        const diamante = objeto.scene
+        diamante = objeto.scene
+        diamante.position.z = -10;
+        diamante.position.y =  2;
+
+        const linhadoTempo3 = gsap.timeline({
+            scrollTrigger: {
+            trigger: ".secao4",
+            scrub: 2, //começa a animação quando o elemento entra na tela e termina quando sai da tela
+             end: "+=4000",
+            }
+        })
+
+        linhadoTempo3.to(diamante.position, {
+            y: -2,            
+        })
+        linhadoTempo3.to(diamante.rotation, {
+            x:2
+        })
+
         cena.add(diamante); // vai adicionar o objeto 3D na cena
     }); 
-    renderer.render(cena, camera); // vai renderizar a cena e a camera
+    //INSERIR TEXTURA NO OBJETO 3D
+    const txtLoader = new THREE.TextureLoader(); // vai carregar a textura
+    txtLoader.load("img/hdri.webp", (textura)=>{
+        textura.mapping = THREE.EquirectangularReflectionMapping; // vai mapear a textura para o objeto 3D
+        const pmrem = new THREE.PMREMGenerator(renderer); // vai gerar a textura para o objeto 3D
+        const ambiente = pmrem.fromEquirectangular(textura).texture;
+        cena.environment = ambiente; // vai adicionar a textura na cena
+    })
+
+    //HZ
+    function animar(){
+        if(diamante != null){
+            diamante.rotation.y += 0.01; // vai rotacionar o objeto 3D o + significa diamante.rotation.y = diamante.rotation.y + 0.01, ou seja, vai rotacionar o objeto 3D no eixo y
+        }
+        renderer.render(cena, camera); // vai renderizar a cena e a camera
+        requestAnimationFrame(animar); // vai chamar a função animar a cada frame
+    }
+
+    animar(); // vai chamar a função animar
 });
 
 
