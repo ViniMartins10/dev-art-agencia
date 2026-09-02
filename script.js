@@ -6,7 +6,6 @@ gsap.registerPlugin(ScrollTrigger,ScrollSmoother,SplitText);
 window.addEventListener("load", ()=>{
 
    
-
     const video = document.querySelector(".videohero");
     const videofooter = document.querySelector(".videofooter");
     console.log(videofooter)
@@ -30,7 +29,7 @@ window.addEventListener("load", ()=>{
             trigger: ".transicao",
             markers:false,
             scrub: 3,
-            start: "0% 0%",
+            start: "0% 0%", // 
             end: "+=3000",
             pin: true,
         },
@@ -59,7 +58,7 @@ window.addEventListener("load", ()=>{
     //ANIMAÇÕES TEXTOS SURGINDO
    const linhaDoTempo2 = gsap.timeline({
         scrollTrigger: {
-            trigger: ".secao4",
+            trigger: ".transicao2",
             markers: false,
             scrub: 2, //começa a animação quando o elemento entra na tela e termina quando sai da tela
              end: "+=4000",
@@ -134,19 +133,29 @@ window.addEventListener("load", ()=>{
 
         const linhadoTempo3 = gsap.timeline({
             scrollTrigger: {
-            trigger: ".secao4",
+            trigger: ".transicao2",
+            start: "top top",
             scrub: 2, //começa a animação quando o elemento entra na tela e termina quando sai da tela
              end: "+=4000",
             }
         })
 
         linhadoTempo3.to(diamante.position, {
-            y: -2,            
+            y: 0,
+            duration:2
         })
         linhadoTempo3.to(diamante.rotation, {
-            x:2
+            x:4.7,
+            duration:2
+        }, "<") // o "<" significa que a animação vai começar ao mesmo tempo que a animação anterior
+        linhadoTempo3.to(diamante.position,{
+            z:3.2,
+            duration: .3
         })
-
+        linhadoTempo3.to("footer",{
+            opacity: 1,
+            duration: .3
+        })
         cena.add(diamante); // vai adicionar o objeto 3D na cena
     }); 
     //INSERIR TEXTURA NO OBJETO 3D
